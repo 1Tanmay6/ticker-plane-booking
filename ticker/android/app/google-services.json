@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "308305772415",
+    "project_id": "personal-projects-89a44",
+    "storage_bucket": "personal-projects-89a44.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:308305772415:android:e5b0b4ec68e06f3983644a",
+        "android_client_info": {
+          "package_name": "com.example.ticker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "308305772415-t6j4kumo4b2kh6sog2dc16htvvbkor1h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAS4pdhdyqhIT094RDqxEPBsyy6RdWAhS0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "308305772415-t6j4kumo4b2kh6sog2dc16htvvbkor1h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
