@@ -8,7 +8,7 @@ import '../widgets/FlightSelectionLandingWidget.dart';
 import '../widgets/profilePictureWidget.dart';
 import '../models/planeTicket.dart';
 import '../widgets/ticket.dart';
-import '../widgets/BottomNavBar.dart';
+import 'BottomNavBar.dart';
 
 class LandingScreen extends StatefulWidget {
   static const routeName = '/landing';
@@ -20,21 +20,25 @@ class LandingScreen extends StatefulWidget {
 
 class _LandingScreenState extends State<LandingScreen> {
   List<PlaneTicket> _planePopularTickets = [];
+  bool init = false;
 
   @override
   void didChangeDependencies() async {
-    final firebaseServices = Provider.of<FirebaseServies>(context);
-    // TODO: implement didChangeDependencies
-    await firebaseServices.fetchPopularTickets();
+    if (!init) {
+      final firebaseServices = Provider.of<FirebaseServies>(context);
+      // TODO: implement didChangeDependencies
+      await firebaseServices.fetchPopularTickets();
+      await firebaseServices.fetchAllTickets();
 
-    setState(() {
       _planePopularTickets = firebaseServices.planeTicketItems;
-    });
+      init = true;
+    }
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
+    final firebaseServices2 = Provider.of<FirebaseServies>(context);
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     final media = MediaQuery.of(context).size;
@@ -51,131 +55,141 @@ class _LandingScreenState extends State<LandingScreen> {
     final imageUrl = Provider.of<AuthServices>(context).user!.photoURL!;
     final userName = Provider.of<AuthServices>(context).user!.displayName!;
 
-    return Stack(
-      children: [
-        Container(
-          height: media.height * 0.45,
-          width: media.width,
-          alignment: Alignment.topRight,
-          color: colorScheme.secondary,
-          child: Stack(
-            alignment: Alignment.center,
+    return firebaseServices2.allPlaneTicketItems.isEmpty
+        ? Center(
+            child: CircularProgressIndicator(
+            color: colorScheme.secondary,
+          ))
+        : Stack(
             children: [
               Container(
-                height: 150,
-                width: 150,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                  border: Border.all(
-                    color: colorScheme.primary.withOpacity(0.25),
-                  ),
-                  color: Colors.transparent,
-                ),
-              ),
-              Container(
-                height: 75,
-                width: 75,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                  border: Border.all(
-                    color: colorScheme.primary.withOpacity(0.25),
-                  ),
-                  color: Colors.transparent,
-                ),
-              ),
-              Container(
-                  height: 50,
-                  width: 50,
-                  decoration: BoxDecoration(
-                      color: Color(0xFF2F3245),
-                      borderRadius: BorderRadius.circular(100),
-                      boxShadow: [
-                        BoxShadow(
-                          color: colorScheme.onBackground.withOpacity(0.1),
-                          spreadRadius: 1,
-                          blurRadius: 1,
-                        )
-                      ]),
-                  child: InkWell(
-                    onTap: () {
-                      print('notifications');
-                    },
-                    child: Icon(
-                      Icons.notifications,
-                      color: colorScheme.primary,
-                      size: 25,
-                    ),
-                  ))
-            ],
-          ),
-        ),
-        SafeArea(
-          child: Container(
-              height: media.height,
-              width: media.width,
-              color: Colors.transparent,
-              alignment: Alignment.center,
-              child: SingleChildScrollView(
-                child: Column(
+                height: media.height * 0.45,
+                width: media.width,
+                alignment: Alignment.topRight,
+                color: colorScheme.secondary,
+                child: Stack(
+                  alignment: Alignment.center,
                   children: [
-                    ProfilePicture(imageUrl: imageUrl, userName: userName),
-                    SizedBox(
-                      height: media.height * 0.025,
-                    ),
                     Container(
-                      alignment: Alignment.centerLeft,
-                      width: media.width * 0.87,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 16.0),
-                      child: Text('Safely reserve your plane ticket.',
-                          style: textTheme.displayLarge!.copyWith(
-                              fontSize: media.height * 0.035,
-                              color: colorScheme.primary,
-                              fontWeight: FontWeight.w500)),
-                    ),
-                    SizedBox(
-                      height: media.height * 0.025,
-                    ),
-                    Container(
-                        height: media.height * 0.43,
-                        width: media.width * 0.8,
-                        alignment: Alignment.topCenter,
-                        child: FlightSelectionBox()),
-                    SizedBox(
-                      height: media.height * 0.025,
-                    ),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      width: media.width * 0.87,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 16.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Popular Destinations',
-                              style: textTheme.displayLarge!.copyWith(
-                                  color: colorScheme.onPrimary,
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w600)),
-                          Text(DateFormat('dd MMMM').format(DateTime.now()),
-                              style: textTheme.displayLarge!.copyWith(
-                                  color: colorScheme.onPrimary.withOpacity(0.5),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600)),
-                        ],
+                      height: 150,
+                      width: 150,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        border: Border.all(
+                          color: colorScheme.primary.withOpacity(0.25),
+                        ),
+                        color: Colors.transparent,
                       ),
                     ),
-                    // ListView.builder(
-                    //   itemBuilder: (context, index) =>
-                    //       Ticket(ticket: _planePopularTickets[index]),
-                    //   itemCount: _planePopularTickets.length,
-                    // )
-                    ..._buildPopularTickets(),
+                    Container(
+                      height: 75,
+                      width: 75,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        border: Border.all(
+                          color: colorScheme.primary.withOpacity(0.25),
+                        ),
+                        color: Colors.transparent,
+                      ),
+                    ),
+                    Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                            color: Color(0xFF2F3245),
+                            borderRadius: BorderRadius.circular(100),
+                            boxShadow: [
+                              BoxShadow(
+                                color:
+                                    colorScheme.onBackground.withOpacity(0.1),
+                                spreadRadius: 1,
+                                blurRadius: 1,
+                              )
+                            ]),
+                        child: InkWell(
+                          onTap: () {
+                            print('notifications');
+                          },
+                          child: Icon(
+                            Icons.notifications,
+                            color: colorScheme.primary,
+                            size: 25,
+                          ),
+                        ))
                   ],
                 ),
-              )),
-        )
-      ],
-    );
+              ),
+              SafeArea(
+                child: Container(
+                    height: media.height,
+                    width: media.width,
+                    color: Colors.transparent,
+                    alignment: Alignment.center,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          ProfilePicture(
+                              imageUrl: imageUrl, userName: userName),
+                          SizedBox(
+                            height: media.height * 0.025,
+                          ),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            width: media.width * 0.87,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8.0, horizontal: 16.0),
+                            child: Text('Safely reserve your plane ticket.',
+                                style: textTheme.displayLarge!.copyWith(
+                                    fontSize: media.height * 0.035,
+                                    color: colorScheme.primary,
+                                    fontWeight: FontWeight.w500)),
+                          ),
+                          SizedBox(
+                            height: media.height * 0.025,
+                          ),
+                          Container(
+                              height: media.height * 0.43,
+                              width: media.width * 0.8,
+                              alignment: Alignment.topCenter,
+                              child: FlightSelectionBox()),
+                          SizedBox(
+                            height: media.height * 0.025,
+                          ),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            width: media.width * 0.87,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8.0, horizontal: 16.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Popular Destinations',
+                                    style: textTheme.displayLarge!.copyWith(
+                                        color: colorScheme.onPrimary,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w600)),
+                                Text(
+                                    DateFormat('dd MMMM')
+                                        .format(DateTime.now()),
+                                    style: textTheme.displayLarge!.copyWith(
+                                        color: colorScheme.onPrimary
+                                            .withOpacity(0.5),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600)),
+                              ],
+                            ),
+                          ),
+                          // ListView.builder(
+                          //   itemBuilder: (context, index) =>
+                          //       Ticket(ticket: _planePopularTickets[index]),
+                          //   itemCount: _planePopularTickets.length,
+                          // )
+                          ..._buildPopularTickets(),
+                        ],
+                      ),
+                    )),
+              )
+            ],
+          );
   }
 }

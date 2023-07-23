@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:glassmorphism/glassmorphism.dart';
+import 'package:plane_ticker/models/planeTicket.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/util_providers.dart';
 import '../providers/firebase_services.dart';
+import '../screens/searchPlaneTicketsScreen.dart';
 import 'FlightSelectionLandingWidget_passegerCountWidget.dart';
 
 class FlightSelectionBox extends StatefulWidget {
@@ -22,12 +26,15 @@ class _FlightSelectionBoxState extends State<FlightSelectionBox> {
     const _width = double.maxFinite;
     const _height = double.maxFinite;
 
+    final utilProvider = Provider.of<UtilProviders>(context);
+
     Widget _buildInput(
         {required String label,
         required bool hasIcon,
         Widget? icon,
         required bool passengerCount,
         TextEditingController? controller,
+        bool? dep,
         double? fontsize}) {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -52,14 +59,37 @@ class _FlightSelectionBoxState extends State<FlightSelectionBox> {
               labelText: label,
               labelStyle: textTheme.bodyMedium!.copyWith(color: Colors.black54),
             ),
+            onChanged: (value) {
+              if (dep != null) {
+                if (dep) {
+                  utilProvider.setCurrentDeps(value);
+                } else {
+                  utilProvider.setCurrentArr(value);
+                }
+              }
+              print(utilProvider.currentDeps);
+              print(utilProvider.currentArr);
+            },
             onTap: () async {
               if (controller != null) {
                 final DateTime? picked = await showDatePicker(
                   context: context,
+                  builder: (BuildContext context, Widget? child) {
+                    return Theme(
+                      data: ThemeData.light().copyWith(
+                        colorScheme: ColorScheme.light(
+                          primary: colorScheme
+                              .secondary, //Change the color of the buttons here
+                        ),
+                      ),
+                      child: child!,
+                    );
+                  },
                   initialDate: DateTime.now(),
                   firstDate: DateTime(2015, 8),
                   lastDate: DateTime(2101),
                 );
+
                 if (picked != null) {
                   final formattedDate =
                       DateFormat('dd MMMM yyyy').format(picked);
@@ -102,6 +132,7 @@ class _FlightSelectionBoxState extends State<FlightSelectionBox> {
           _buildInput(
               label: 'From',
               hasIcon: true,
+              dep: true,
               icon: Image.asset(
                 'lib/assets/images/takeoff.png',
                 height: 26,
@@ -113,6 +144,7 @@ class _FlightSelectionBoxState extends State<FlightSelectionBox> {
           _buildInput(
             label: 'To',
             hasIcon: true,
+            dep: false,
             icon: Image.asset(
               'lib/assets/images/landing.png',
               height: 26,
@@ -164,6 +196,30 @@ class _FlightSelectionBoxState extends State<FlightSelectionBox> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15)),
                 onPressed: () {
+                  final dep = utilProvider.currentDeps;
+                  final arr = utilProvider.currentArr;
+
+                  if (dep != '' && arr != '') {
+                    List<PlaneTicket> results = utilProvider.searchPlanes(
+                        context: context,
+                        departureStateCode: dep,
+                        arrivalStateCode: arr);
+
+                    Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) {
+                          return SearchPlaneTicketScreen(
+                            results: results,
+                          );
+                        },
+                      ),
+                    );
+
+                    print('results: $results');
+                  } else {
+                    print('object');
+                  }
+
                   // Provider.of<FirebaseServies>(context, listen: false)
                   //     .fetchPopularTickets();
                 },

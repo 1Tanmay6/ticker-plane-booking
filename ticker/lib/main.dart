@@ -6,11 +6,13 @@ import 'package:provider/provider.dart';
 
 import 'providers/auth_services.dart';
 import 'providers/util_providers.dart';
-import 'providers/firebase_services.dart';
+import 'screens/postConfirmScreen.dart';
 import 'screens/getStarted.dart';
 import 'screens/loginRegisterScreen.dart';
 import 'screens/landingScreen.dart';
-import 'widgets/BottomNavBar.dart';
+import 'screens/BottomNavBar.dart';
+import 'screens/TicketDetailScreen.dart';
+import 'models/planeTicket.dart';
 
 void main() async {
   runApp(const MyApp());
@@ -44,11 +46,11 @@ class MyApp extends StatelessWidget {
                 brightness: Brightness.light,
                 primary: Color(0xFFf5f5f5),
                 onPrimary: Color(0xFF000000),
-                secondary: Color(0xFF0C4160),
+                secondary: Color(0xFF24445C),
                 onSecondary: Color(0xFF0C4160),
                 error: Colors.red,
                 onError: Colors.black,
-                background: Color(0xFFF7F6FB),
+                background: Color(0xFFf5f5f5),
                 onBackground: Color(0xFF0C4160),
                 surface: Colors.white,
                 onSurface: Colors.black),
@@ -69,8 +71,30 @@ class MyApp extends StatelessWidget {
                 fontSize: MediaQuery.of(context).size.height * 0.015,
                 fontWeight: FontWeight.normal,
               ),
-            )),
-        home: GetStartedScreen(),
+            )).copyWith(
+          pageTransitionsTheme: const PageTransitionsTheme(
+            builders: <TargetPlatform, PageTransitionsBuilder>{
+              TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+            },
+          ),
+        ),
+        home: const GetStartedScreen(),
+        // home: PostConfirmScreen(
+        //   ticket: PlaneTicket(
+        //     id: '1',
+        //     airportName: 'JFK International Airport',
+        //     departureCity: 'New York City',
+        //     arrivalCity: 'Los Angeles',
+        //     departureStateCode: 'NY',
+        //     arrivalStateCode: 'CA',
+        //     departureDate: DateTime(2022, 12, 1, 8, 15).toIso8601String(),
+        //     arrivalDate: DateTime(2022, 12, 1, 11, 45).toIso8601String(),
+        //     travelTime: 210,
+        //     price: 25000.00,
+        //     airwayName: 'Delta Airlines',
+        //     airplaneName: 'Boeing 737',
+        //   ),
+        // ),
         routes: {
           GetStartedScreen.routeName: (context) => const GetStartedScreen(),
           LoginRegisterScreen.routeName: (context) =>

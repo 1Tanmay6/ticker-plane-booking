@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../models/planeTicket.dart';
 import '../providers/util_providers.dart';
+import '../screens/TicketDetailScreen.dart';
 
 class Ticket extends StatelessWidget {
   PlaneTicket ticket;
@@ -20,7 +21,13 @@ class Ticket extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        print('Ticket tapped');
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => TicketDetailScreen(
+                    ticket: ticket,
+                  )),
+        );
       },
       child: Container(
           height: media.height * 0.22,
@@ -43,7 +50,7 @@ class Ticket extends StatelessWidget {
                                   fontWeight: FontWeight.w600, fontSize: 16),
                             ),
                             Text(
-                              '₹' + ticket.price.toString(),
+                              '₹' + ticket.price.toStringAsFixed(2),
                               style: textTheme.displayLarge!.copyWith(
                                   fontWeight: FontWeight.w600, fontSize: 16),
                             ),

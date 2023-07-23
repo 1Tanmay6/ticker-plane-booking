@@ -66,8 +66,14 @@ class GetStartedScreen extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15)),
                 onPressed: () {
-                  Navigator.pushReplacementNamed(
-                      context, LoginRegisterScreen.routeName);
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) {
+                        return const LoginRegisterScreen();
+                      },
+                    ),
+                  );
+                  ;
                 },
                 label: Text(
                   'Get Started',

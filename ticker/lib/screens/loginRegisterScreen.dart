@@ -111,7 +111,7 @@ class LoginRegisterScreen extends StatelessWidget {
                               style: textTheme.displayLarge!.copyWith(
                                   color: colorScheme.primary,
                                   fontWeight: FontWeight.w400,
-                                  fontSize: media.height * 0.02),
+                                  fontSize: media.height * 0.018),
                               textAlign: TextAlign.center,
                             )),
                       ),

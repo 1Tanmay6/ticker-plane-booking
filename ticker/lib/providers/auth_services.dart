@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../widgets/BottomNavBar.dart';
+import '../screens/BottomNavBar.dart';
 
 class AuthServices with ChangeNotifier {
   String _uid = '';
@@ -27,7 +27,13 @@ class AuthServices with ChangeNotifier {
     print(user);
 
     if (_uid != '') {
-      Navigator.popAndPushNamed(context, BottomNavBar.routeName);
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) {
+            return BottomNavBar();
+          },
+        ),
+      );
     }
     return res;
   }

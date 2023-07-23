@@ -1,6 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/util_providers.dart';
 
 class FlightSelectionLandingWidget_passegerCountWidget extends StatefulWidget {
   @override
@@ -18,6 +21,9 @@ class _FlightSelectionLandingWidget_passegerCountWidgetState
     final media = MediaQuery.of(context).size;
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+
+    final utilProvider = Provider.of<UtilProviders>(context);
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       width: media.width * 0.7,
@@ -50,6 +56,7 @@ class _FlightSelectionLandingWidget_passegerCountWidgetState
           ),
           FloatingActionButton(
             onPressed: () {
+              utilProvider.decrementPassengers();
               setState(() {
                 _passengerCount = max(1, _passengerCount - 1);
               });
@@ -60,6 +67,7 @@ class _FlightSelectionLandingWidget_passegerCountWidgetState
           SizedBox(width: 8),
           FloatingActionButton(
             onPressed: () {
+              utilProvider.incrementPassengers();
               setState(() {
                 _passengerCount++;
               });

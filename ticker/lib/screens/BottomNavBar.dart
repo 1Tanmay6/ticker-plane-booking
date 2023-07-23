@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:animations/animations.dart';
 
-import '../screens/landingScreen.dart';
+import 'landingScreen.dart';
+import 'TicketsScreen.dart';
 
 class BottomNavBar extends StatefulWidget {
   static const routeName = '/bottomNavBar';
@@ -10,9 +12,9 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   int _selectedIndex = 0;
-  static const List<Widget> _widgetOptions = <Widget>[
+  static List<Widget> _widgetOptions = <Widget>[
     LandingScreen(),
-    Text('Tickets Page'),
+    AllTicketsScreen(),
     Text('History Page'),
     Text('Settings Page'),
   ];
@@ -30,8 +32,20 @@ class _BottomNavBarState extends State<BottomNavBar> {
     final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+      backgroundColor: colorScheme.primary,
+      body: PageTransitionSwitcher(
+        transitionBuilder: (
+          Widget child,
+          Animation<double> animation,
+          Animation<double> secondaryAnimation,
+        ) {
+          return FadeThroughTransition(
+            animation: animation,
+            secondaryAnimation: secondaryAnimation,
+            child: child,
+          );
+        },
+        child: _widgetOptions[_selectedIndex],
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: colorScheme.primary,
