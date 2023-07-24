@@ -1,20 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:plane_ticker/widgets/ticket.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:provider/provider.dart';
 
 import '../models/planeTicket.dart';
+import '../providers/auth_services.dart';
+import '../providers/firebase_services.dart';
+import '../widgets/ticket.dart';
 
-// ignore: must_be_immutable
-class SearchPlaneTicketScreen extends StatefulWidget {
-  static const routeName = '/searchPlaneTicket';
-  List<PlaneTicket> results = [];
-  SearchPlaneTicketScreen({super.key, required this.results});
+class HistoryScreen extends StatefulWidget {
+  const HistoryScreen({super.key});
 
   @override
-  State<SearchPlaneTicketScreen> createState() =>
-      _SearchPlaneTicketScreenState();
+  State<HistoryScreen> createState() => _HistoryScreenState();
 }
 
-class _SearchPlaneTicketScreenState extends State<SearchPlaneTicketScreen> {
+class _HistoryScreenState extends State<HistoryScreen> {
+  bool init = false;
+  bool loading = true;
+  List<PlaneTicket> results = [];
+  @override
+  didChangeDependencies() async {
+    final authProvider = Provider.of<AuthServices>(context);
+    final firebaseProvider = Provider.of<FirebaseServies>(context);
+    if (!init) {
+      await firebaseProvider.historyFetcher(authProvider.user!.uid);
+      results = firebaseProvider.history;
+      init = true;
+      loading = false;
+    }
+
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context).size;
@@ -57,7 +74,7 @@ class _SearchPlaneTicketScreenState extends State<SearchPlaneTicketScreen> {
                       child: Icon(Icons.arrow_back_rounded,
                           color: colorScheme.secondary),
                     ),
-                    Text('Search Results',
+                    Text('History',
                         style: textTheme.displayLarge!.copyWith(
                             color: colorScheme.primary, fontSize: 25)),
                     FloatingActionButton.small(
@@ -66,10 +83,7 @@ class _SearchPlaneTicketScreenState extends State<SearchPlaneTicketScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(100),
                       ),
-                      onPressed: () {
-                        // utilProvider.shareTicket(context, false);
-                        // utilProvider.resetTempSelection();
-                      },
+                      onPressed: () {},
                       child: Icon(Icons.refresh_rounded,
                           color: colorScheme.secondary),
                     ),
@@ -99,19 +113,24 @@ class _SearchPlaneTicketScreenState extends State<SearchPlaneTicketScreen> {
                         horizontal: 12.0, vertical: 20),
                     child: Column(
                       children: [
-                        Text('${widget.results.length} Results Found',
-                            style: textTheme.displayLarge!.copyWith(
-                                color: colorScheme.secondary, fontSize: 25)),
                         Expanded(
-                          child: widget.results.isEmpty
-                              ? const Center(child: Text('No results Found'))
-                              : ListView.builder(
-                                  itemBuilder: (context, index) {
-                                    return Ticket(
-                                        ticket: widget.results[index]);
-                                  },
-                                  itemCount: widget.results.length,
-                                ),
+                          child: loading
+                              ? Center(
+                                  child: LoadingAnimationWidget.beat(
+                                      color: colorScheme.secondary, size: 35))
+                              : results.isEmpty
+                                  ? const Center(
+                                      child: Text('No results Found'))
+                                  : ListView.builder(
+                                      padding: EdgeInsets.zero,
+                                      itemBuilder: (context, index) {
+                                        return Ticket(
+                                          ticket: results[index],
+                                          history: true,
+                                        );
+                                      },
+                                      itemCount: results.length,
+                                    ),
                         )
                       ],
                     ))))

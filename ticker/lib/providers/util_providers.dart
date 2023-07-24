@@ -15,7 +15,6 @@ import '../models/planeTicket.dart';
 
 class UtilProviders extends ChangeNotifier {
   bool _isDarkMode = false;
-  bool _ticketIsSelected = false;
   //? This is for the temporary ticket selection
   bool _isTempTicketSelected = false;
   bool _isTempClassSelected = false;
@@ -70,17 +69,14 @@ class UtilProviders extends ChangeNotifier {
 
   String minsConverter(int mins) {
     if (mins < 60) {
-      return mins.toString() + ' mins';
+      return '$mins mins';
     }
 
     if (mins == 60) {
       return '1 hr';
     }
 
-    return (mins / 60).floor().toString() +
-        ' hrs ' +
-        (mins % 60).toString() +
-        ' mins';
+    return '${(mins / 60).floor()} hrs ${mins % 60} mins';
   }
 
   String getSeatNumber() {
@@ -215,8 +211,6 @@ class UtilProviders extends ChangeNotifier {
     );
 
     final authProvider = Provider.of<AuthServices>(context, listen: false);
-    final firebaseProvider =
-        Provider.of<FirebaseServies>(context, listen: false);
 
     pdf.addPage(
       pw.Page(
@@ -235,11 +229,11 @@ class UtilProviders extends ChangeNotifier {
               color: PdfColor.fromInt(theme.colorScheme.primary.value),
               borderRadius: pw.BorderRadius.circular(16),
             ),
-            margin: pw.EdgeInsets.all(16),
+            margin: const pw.EdgeInsets.all(16),
             child: pw.Column(
               children: [
                 pw.Container(
-                  padding: pw.EdgeInsets.all(16),
+                  padding: const pw.EdgeInsets.all(16),
                   child: pw.Text(
                     'Ticket',
                     style: pw.TextStyle(
@@ -250,7 +244,7 @@ class UtilProviders extends ChangeNotifier {
                 ),
                 pw.SizedBox(height: 16),
                 pw.Container(
-                  padding: pw.EdgeInsets.all(16),
+                  padding: const pw.EdgeInsets.all(16),
                   child: pw.Column(
                       mainAxisAlignment: pw.MainAxisAlignment.spaceAround,
                       crossAxisAlignment: pw.CrossAxisAlignment.start,
@@ -260,16 +254,14 @@ class UtilProviders extends ChangeNotifier {
                                 pw.MainAxisAlignment.spaceBetween,
                             children: [
                               pw.Text(
-                                  'Date:' +
-                                      DateFormat.yMMMd().format(DateTime.now()),
+                                  'Date:${DateFormat.yMMMd().format(DateTime.now())}',
                                   style: pw.TextStyle(
                                       color: PdfColor.fromInt(
                                           theme.colorScheme.secondary.value))),
                               pw.SizedBox(height: 20),
                               // Add the name of the ticket holder here
                               pw.Text(
-                                  'Time:' +
-                                      DateFormat.jm().format(DateTime.now()),
+                                  'Time:${DateFormat.jm().format(DateTime.now())}',
                                   style: pw.TextStyle(
                                       color: PdfColor.fromInt(
                                           theme.colorScheme.secondary.value))),
@@ -383,11 +375,6 @@ class UtilProviders extends ChangeNotifier {
     _currrentClass = className;
     notifyListeners();
   }
-
-  // void seatSelected(String seatName) {
-  //   _currrentSeat = seatName;
-  //   notifyListeners();
-  // }
 
   void setBoughtTicket() {
     _boughtTicket = !_boughtTicket;

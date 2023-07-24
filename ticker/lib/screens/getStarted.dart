@@ -13,7 +13,6 @@ class GetStartedScreen extends StatelessWidget {
 
     return Scaffold(
       body: Column(
-        // mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
@@ -21,7 +20,6 @@ class GetStartedScreen extends StatelessWidget {
             color: colorScheme.secondary,
             alignment: Alignment.center,
             child: ClipRRect(
-              // borderRadius: BorderRadius.circular(20),
               child: Image.asset(
                 'lib/assets/images/introplane.png',
                 fit: BoxFit.contain,
@@ -78,7 +76,7 @@ class GetStartedScreen extends StatelessWidget {
                 label: Text(
                   'Get Started',
                   style: textTheme.displayLarge!.copyWith(
-                      color: colorScheme.primary,
+                      color: const Color(0xFFf5f5f5),
                       fontWeight: FontWeight.w500,
                       fontSize: media.height * 0.022),
                   textAlign: TextAlign.center,

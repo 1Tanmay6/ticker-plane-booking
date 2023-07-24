@@ -4,7 +4,8 @@ class ProfilePicture extends StatelessWidget {
   final String imageUrl;
   final String userName;
 
-  ProfilePicture({required this.imageUrl, required this.userName});
+  const ProfilePicture(
+      {super.key, required this.imageUrl, required this.userName});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class ProfilePicture extends StatelessWidget {
             backgroundImage: NetworkImage(imageUrl),
             radius: 20,
           ),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

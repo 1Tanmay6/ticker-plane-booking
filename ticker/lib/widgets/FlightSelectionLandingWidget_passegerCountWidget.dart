@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types, library_private_types_in_public_api, sort_child_properties_last
+
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -6,6 +8,8 @@ import 'package:provider/provider.dart';
 import '../providers/util_providers.dart';
 
 class FlightSelectionLandingWidget_passegerCountWidget extends StatefulWidget {
+  const FlightSelectionLandingWidget_passegerCountWidget({super.key});
+
   @override
   _FlightSelectionLandingWidget_passegerCountWidgetState createState() =>
       _FlightSelectionLandingWidget_passegerCountWidgetState();
@@ -61,7 +65,10 @@ class _FlightSelectionLandingWidget_passegerCountWidgetState
                 _passengerCount = max(1, _passengerCount - 1);
               });
             },
-            child: Icon(Icons.remove),
+            child: Icon(
+              Icons.remove,
+              color: colorScheme.secondary,
+            ),
             mini: true,
           ),
           SizedBox(width: 8),
@@ -72,7 +79,10 @@ class _FlightSelectionLandingWidget_passegerCountWidgetState
                 _passengerCount++;
               });
             },
-            child: Icon(Icons.add),
+            child: Icon(
+              Icons.add,
+              color: colorScheme.secondary,
+            ),
             mini: true,
           ),
         ],

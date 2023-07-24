@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'planeTicket.dart';
-
 class OrderTicket {
   final String orderId;
   final String ticket;

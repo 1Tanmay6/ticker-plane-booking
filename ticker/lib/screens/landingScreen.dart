@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:plane_ticker/providers/firebase_services.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../providers/auth_services.dart';
 import '../widgets/FlightSelectionLandingWidget.dart';
 import '../widgets/profilePictureWidget.dart';
 import '../models/planeTicket.dart';
 import '../widgets/ticket.dart';
-import 'BottomNavBar.dart';
 
 class LandingScreen extends StatefulWidget {
   static const routeName = '/landing';
@@ -47,7 +47,7 @@ class _LandingScreenState extends State<LandingScreen> {
       List<Widget> _tickets = [];
       _planePopularTickets.forEach((ticket) {
         _tickets.add(Ticket(ticket: ticket));
-        _tickets.add(SizedBox(height: 10));
+        _tickets.add(const SizedBox(height: 10));
       });
       return _tickets;
     }
@@ -55,11 +55,10 @@ class _LandingScreenState extends State<LandingScreen> {
     final imageUrl = Provider.of<AuthServices>(context).user!.photoURL!;
     final userName = Provider.of<AuthServices>(context).user!.displayName!;
 
-    return firebaseServices2.allPlaneTicketItems.isEmpty
+    return (firebaseServices2.allPlaneTicketItems.isEmpty || !init)
         ? Center(
-            child: CircularProgressIndicator(
-            color: colorScheme.secondary,
-          ))
+            child: LoadingAnimationWidget.beat(
+                color: colorScheme.secondary, size: 35))
         : Stack(
             children: [
               Container(
@@ -96,7 +95,7 @@ class _LandingScreenState extends State<LandingScreen> {
                         height: 50,
                         width: 50,
                         decoration: BoxDecoration(
-                            color: Color(0xFF2F3245),
+                            color: const Color(0xFF2F3245),
                             borderRadius: BorderRadius.circular(100),
                             boxShadow: [
                               BoxShadow(
@@ -179,11 +178,6 @@ class _LandingScreenState extends State<LandingScreen> {
                               ],
                             ),
                           ),
-                          // ListView.builder(
-                          //   itemBuilder: (context, index) =>
-                          //       Ticket(ticket: _planePopularTickets[index]),
-                          //   itemCount: _planePopularTickets.length,
-                          // )
                           ..._buildPopularTickets(),
                         ],
                       ),

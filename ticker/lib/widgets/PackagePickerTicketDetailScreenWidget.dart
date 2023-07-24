@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -9,7 +11,8 @@ import '../widgets/packagesRadioButtons.dart';
 class PackagePickerTicketDetailScreenWidget extends StatefulWidget {
   final PlaneTicket ticket;
 
-  const PackagePickerTicketDetailScreenWidget({required this.ticket});
+  const PackagePickerTicketDetailScreenWidget(
+      {super.key, required this.ticket});
 
   @override
   State<PackagePickerTicketDetailScreenWidget> createState() =>
@@ -34,7 +37,7 @@ class _PackagePickerTicketDetailScreenWidgetState
             decoration: BoxDecoration(
                 color: colorScheme.primary,
                 borderRadius: BorderRadius.circular(15),
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                       color: Colors.black45,
                       blurRadius: 10,
@@ -53,17 +56,10 @@ class _PackagePickerTicketDetailScreenWidgetState
                         Text("Pick a class for your flight",
                             style: textTheme.displayLarge!.copyWith(
                                 fontWeight: FontWeight.w600, fontSize: 15)),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         //! Class Selection Radio button (bussiness, economy, first class)
-                        MyClass(),
+                        const MyClass(),
                         //! Seat number allocaated/ available
-                        // seat type (window, aisle, middle)
-
-                        // Text("Pick a Seat Type for your flight",
-                        //     style: textTheme.displayLarge!.copyWith(
-                        //         fontWeight: FontWeight.w600, fontSize: 15)),
-                        // SizedBox(height: 10),
-                        // SeatType(),
 
                         const Divider(
                           color: Colors.black26,
@@ -94,7 +90,7 @@ class _PackagePickerTicketDetailScreenWidgetState
                         Text("Pick a Package for your flight",
                             style: textTheme.displayLarge!.copyWith(
                                 fontWeight: FontWeight.w600, fontSize: 15)),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         MyFlightPackage(),
 
                         //! Package selection radio button (basic, standard, premium)

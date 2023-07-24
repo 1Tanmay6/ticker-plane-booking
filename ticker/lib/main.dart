@@ -6,13 +6,10 @@ import 'package:provider/provider.dart';
 
 import 'providers/auth_services.dart';
 import 'providers/util_providers.dart';
-import 'screens/postConfirmScreen.dart';
 import 'screens/getStarted.dart';
 import 'screens/loginRegisterScreen.dart';
 import 'screens/landingScreen.dart';
 import 'screens/BottomNavBar.dart';
-import 'screens/TicketDetailScreen.dart';
-import 'models/planeTicket.dart';
 
 void main() async {
   runApp(const MyApp());

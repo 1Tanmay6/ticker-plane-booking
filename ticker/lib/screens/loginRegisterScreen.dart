@@ -16,7 +16,7 @@ class LoginRegisterScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: colorScheme.secondary,
       body: Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         height: media.height,
         width: media.width,
         child: Column(
@@ -26,7 +26,7 @@ class LoginRegisterScreen extends StatelessWidget {
             Text(
               'Connect With Us',
               style: textTheme.displayLarge!.copyWith(
-                color: colorScheme.primary,
+                color: const Color(0xFFf5f5f5),
               ),
             ),
             SizedBox(
@@ -109,7 +109,7 @@ class LoginRegisterScreen extends StatelessWidget {
                             label: Text(
                               'Login with Google',
                               style: textTheme.displayLarge!.copyWith(
-                                  color: colorScheme.primary,
+                                  color: const Color(0xFFf5f5f5),
                                   fontWeight: FontWeight.w400,
                                   fontSize: media.height * 0.018),
                               textAlign: TextAlign.center,

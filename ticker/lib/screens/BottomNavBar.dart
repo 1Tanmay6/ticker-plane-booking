@@ -3,6 +3,8 @@ import 'package:animations/animations.dart';
 
 import 'landingScreen.dart';
 import 'TicketsScreen.dart';
+import 'HistoryScreen.dart';
+import 'ProfileScreen.dart';
 
 class BottomNavBar extends StatefulWidget {
   static const routeName = '/bottomNavBar';
@@ -12,11 +14,11 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   int _selectedIndex = 0;
-  static List<Widget> _widgetOptions = <Widget>[
-    LandingScreen(),
+  static final List<Widget> _widgetOptions = <Widget>[
+    const LandingScreen(),
     AllTicketsScreen(),
-    Text('History Page'),
-    Text('Settings Page'),
+    HistoryScreen(),
+    ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -29,7 +31,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context).size;
     final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
       backgroundColor: colorScheme.primary,
@@ -82,9 +83,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-                _selectedIndex == 3 ? Icons.settings : Icons.settings_outlined,
+                _selectedIndex == 3 ? Icons.person_2 : Icons.person_2_outlined,
                 color: colorScheme.secondary),
-            label: 'Settings',
+            label: 'Profile',
           ),
         ],
         currentIndex: _selectedIndex,

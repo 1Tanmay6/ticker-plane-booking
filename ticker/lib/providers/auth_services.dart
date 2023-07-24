@@ -1,7 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import '../screens/getStarted.dart';
 import '../screens/BottomNavBar.dart';
 
 class AuthServices with ChangeNotifier {
@@ -10,6 +13,17 @@ class AuthServices with ChangeNotifier {
   User? user;
 
   String get uid => _uid;
+
+  signOut(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) {
+          return const GetStartedScreen();
+        },
+      ),
+    );
+  }
 
   signInWithGoogle(BuildContext context) async {
     final GoogleSignInAccount? guser = await GoogleSignIn().signIn();
@@ -27,7 +41,7 @@ class AuthServices with ChangeNotifier {
     print(user);
 
     if (_uid != '') {
-      Navigator.of(context).push(
+      Navigator.of(context).pushReplacement(
         MaterialPageRoute<void>(
           builder: (BuildContext context) {
             return BottomNavBar();

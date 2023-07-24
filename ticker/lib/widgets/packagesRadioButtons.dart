@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -6,6 +8,8 @@ import '../providers/util_providers.dart';
 enum FlightPackage { basic, standard, premium }
 
 class MyFlightPackage extends StatefulWidget {
+  const MyFlightPackage({super.key});
+
   @override
   _MyFlightPackageState createState() => _MyFlightPackageState();
 }
@@ -15,9 +19,7 @@ class _MyFlightPackageState extends State<MyFlightPackage> {
 
   @override
   Widget build(BuildContext context) {
-    final media = MediaQuery.of(context).size;
     final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
     final utilProvider = Provider.of<UtilProviders>(context);
 
     return SingleChildScrollView(

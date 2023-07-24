@@ -5,20 +5,21 @@ import 'package:syncfusion_flutter_barcodes/barcodes.dart';
 
 import '../models/planeTicket.dart';
 import '../providers/util_providers.dart';
+import 'BottomNavBar.dart';
 
 class PostConfirmScreen extends StatelessWidget {
   final PlaneTicket ticket;
-  PostConfirmScreen({required this.ticket});
+  const PostConfirmScreen({super.key, required this.ticket});
 
   TextEditingController converter(bool dep) {
     final TextEditingController _departureDateController =
         TextEditingController(
             text:
                 DateFormat('Hms').format(DateTime.parse(ticket.departureDate)));
-    final TextEditingController _arrivalDateController = TextEditingController(
+    final TextEditingController arrivalDateController = TextEditingController(
         text: DateFormat('Hms').format(DateTime.parse(ticket.arrivalDate)));
 
-    return dep ? _departureDateController : _arrivalDateController;
+    return dep ? _departureDateController : arrivalDateController;
   }
 
   @override
@@ -96,7 +97,13 @@ class PostConfirmScreen extends StatelessWidget {
                           ),
                           onPressed: () {
                             utilProvider.resetTempSelection();
-                            Navigator.pop(context);
+                            Navigator.of(context).push(
+                              MaterialPageRoute<void>(
+                                builder: (BuildContext context) {
+                                  return BottomNavBar();
+                                },
+                              ),
+                            );
                           },
                           child: Icon(Icons.arrow_back_rounded,
                               color: colorScheme.secondary),
@@ -130,7 +137,7 @@ class PostConfirmScreen extends StatelessWidget {
               decoration: BoxDecoration(
                   color: colorScheme.primary,
                   borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                         color: Colors.black45,
                         blurRadius: 10,
@@ -168,38 +175,34 @@ class PostConfirmScreen extends StatelessWidget {
                           children: [
                             Expanded(
                                 flex: 2,
-                                child: Container(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(ticket.departureCity,
-                                          style: textTheme.displayLarge!
-                                              .copyWith(
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: 13)),
-                                      SizedBox(
-                                        height: 15,
-                                      ),
-                                      Text(
-                                        ticket.departureStateCode,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(ticket.departureCity,
                                         style: textTheme.displayLarge!.copyWith(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 18),
-                                      ),
-                                      SizedBox(
-                                        height: 15,
-                                      ),
-                                      Text(
-                                          DateFormat('dd MMM yyyy')
-                                              .format(DateTime.parse(
-                                                  ticket.departureDate))
-                                              .toString(),
-                                          style: textTheme.displayLarge!
-                                              .copyWith(
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: 13)),
-                                    ],
-                                  ),
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 13)),
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    Text(
+                                      ticket.departureStateCode,
+                                      style: textTheme.displayLarge!.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18),
+                                    ),
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    Text(
+                                        DateFormat('dd MMM yyyy')
+                                            .format(DateTime.parse(
+                                                ticket.departureDate))
+                                            .toString(),
+                                        style: textTheme.displayLarge!.copyWith(
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 13)),
+                                  ],
                                 )),
                             Expanded(
                                 flex: 3,
@@ -218,7 +221,7 @@ class PostConfirmScreen extends StatelessWidget {
                                               .copyWith(
                                                   fontWeight: FontWeight.normal,
                                                   fontSize: 13)),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 3,
                                       ),
                                     ],
@@ -226,38 +229,34 @@ class PostConfirmScreen extends StatelessWidget {
                                 )),
                             Expanded(
                                 flex: 2,
-                                child: Container(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(ticket.arrivalCity,
-                                          style: textTheme.displayLarge!
-                                              .copyWith(
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: 13)),
-                                      SizedBox(
-                                        height: 15,
-                                      ),
-                                      Text(
-                                        ticket.arrivalStateCode,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(ticket.arrivalCity,
                                         style: textTheme.displayLarge!.copyWith(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 18),
-                                      ),
-                                      SizedBox(
-                                        height: 15,
-                                      ),
-                                      Text(
-                                          DateFormat('dd MMM yyyy')
-                                              .format(DateTime.parse(
-                                                  ticket.arrivalDate))
-                                              .toString(),
-                                          style: textTheme.displayLarge!
-                                              .copyWith(
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: 13)),
-                                    ],
-                                  ),
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 13)),
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    Text(
+                                      ticket.arrivalStateCode,
+                                      style: textTheme.displayLarge!.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18),
+                                    ),
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    Text(
+                                        DateFormat('dd MMM yyyy')
+                                            .format(DateTime.parse(
+                                                ticket.arrivalDate))
+                                            .toString(),
+                                        style: textTheme.displayLarge!.copyWith(
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 13)),
+                                  ],
                                 )),
                           ],
                         ),
@@ -276,7 +275,7 @@ class PostConfirmScreen extends StatelessWidget {
                                     hasIcon: false,
                                     passengerCount: false,
                                     controller: converter(true))),
-                            SizedBox(
+                            const SizedBox(
                               width: 20,
                             ),
                             Expanded(
@@ -309,7 +308,7 @@ class PostConfirmScreen extends StatelessWidget {
                     ),
                   )),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ), //? End of the main container
             Container(
@@ -318,7 +317,7 @@ class PostConfirmScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                     color: colorScheme.primary,
                     borderRadius: BorderRadius.circular(15),
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
                           color: Colors.black45,
                           blurRadius: 10,
@@ -347,7 +346,7 @@ class PostConfirmScreen extends StatelessWidget {
                                 ),
                               )
                             ])))),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
 
@@ -355,7 +354,7 @@ class PostConfirmScreen extends StatelessWidget {
               height: media.height * 0.07,
               width: media.width * 0.85,
               child: FloatingActionButton.extended(
-                  icon: Icon(Icons.save_alt_outlined),
+                  icon: const Icon(Icons.save_alt_outlined),
                   backgroundColor: colorScheme.secondary,
                   foregroundColor: colorScheme.primary,
                   shape: RoundedRectangleBorder(

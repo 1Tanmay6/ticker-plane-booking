@@ -1,16 +1,18 @@
+// ignore_for_file: no_leading_underscores_for_local_identifiers
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:plane_ticker/models/planeTicket.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/util_providers.dart';
-import '../providers/firebase_services.dart';
 import '../screens/searchPlaneTicketsScreen.dart';
 import 'FlightSelectionLandingWidget_passegerCountWidget.dart';
 
 class FlightSelectionBox extends StatefulWidget {
+  const FlightSelectionBox({super.key});
+
   @override
   State<FlightSelectionBox> createState() => _FlightSelectionBoxState();
 }
@@ -23,8 +25,8 @@ class _FlightSelectionBoxState extends State<FlightSelectionBox> {
     final media = MediaQuery.of(context).size;
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-    const _width = double.maxFinite;
-    const _height = double.maxFinite;
+    const width = double.maxFinite;
+    const height = double.maxFinite;
 
     final utilProvider = Provider.of<UtilProviders>(context);
 
@@ -102,8 +104,8 @@ class _FlightSelectionBoxState extends State<FlightSelectionBox> {
     }
 
     return GlassmorphicContainer(
-      width: _width,
-      height: _height,
+      width: width,
+      height: height,
       borderRadius: 20,
       blur: 20,
       alignment: Alignment.bottomCenter,
@@ -112,18 +114,18 @@ class _FlightSelectionBoxState extends State<FlightSelectionBox> {
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: [
-          Color(0xFF0C4160).withOpacity(0.05),
-          Color(0xFF0C4160).withOpacity(0.15),
-          Color(0xFF0C4160).withOpacity(0.25),
-          Color(0xFF0C4160).withOpacity(0.35),
+          const Color(0xFF0C4160).withOpacity(0.05),
+          const Color(0xFF0C4160).withOpacity(0.15),
+          const Color(0xFF0C4160).withOpacity(0.25),
+          const Color(0xFF0C4160).withOpacity(0.35),
         ],
       ),
       borderGradient: LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: [
-          Color(0xFFffffff).withOpacity(0.25),
-          Color(0xFF0C4160).withOpacity(0.35),
+          const Color(0xFFffffff).withOpacity(0.25),
+          const Color(0xFF0C4160).withOpacity(0.35),
         ],
       ),
       child: Column(
@@ -138,7 +140,7 @@ class _FlightSelectionBoxState extends State<FlightSelectionBox> {
                 height: 26,
               ),
               passengerCount: false),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           _buildInput(
@@ -151,7 +153,7 @@ class _FlightSelectionBoxState extends State<FlightSelectionBox> {
             ),
             passengerCount: false,
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           SizedBox(
@@ -166,7 +168,7 @@ class _FlightSelectionBoxState extends State<FlightSelectionBox> {
                   controller: _depaturedateController,
                   fontsize: media.height * 0.015,
                 )),
-                SizedBox(
+                const SizedBox(
                   width: 5,
                 ),
                 Expanded(
@@ -180,11 +182,11 @@ class _FlightSelectionBoxState extends State<FlightSelectionBox> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
-          FlightSelectionLandingWidget_passegerCountWidget(),
-          SizedBox(
+          const FlightSelectionLandingWidget_passegerCountWidget(),
+          const SizedBox(
             height: 15,
           ),
           SizedBox(
@@ -219,9 +221,6 @@ class _FlightSelectionBoxState extends State<FlightSelectionBox> {
                   } else {
                     print('object');
                   }
-
-                  // Provider.of<FirebaseServies>(context, listen: false)
-                  //     .fetchPopularTickets();
                 },
                 label: Text(
                   'Search',

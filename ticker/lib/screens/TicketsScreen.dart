@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:plane_ticker/models/orderticket.dart';
 import 'package:plane_ticker/providers/firebase_services.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -7,13 +6,12 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../providers/auth_services.dart';
 import '../providers/util_providers.dart';
-import '../models/orderticket.dart';
 import '../widgets/profilePictureWidget.dart';
 import '../models/planeTicket.dart';
 import '../widgets/ticket.dart';
 
 class AllTicketsScreen extends StatefulWidget {
-  AllTicketsScreen({super.key});
+  const AllTicketsScreen({super.key});
 
   @override
   State<AllTicketsScreen> createState() => _AllTicketsScreenState();
@@ -37,6 +35,7 @@ class _AllTicketsScreenState extends State<AllTicketsScreen> {
     airplaneName: 'XXXXXX XXXX',
   );
 
+  @override
   void didChangeDependencies() async {
     final firebaseServices2 = Provider.of<FirebaseServies>(context);
     final authProvider = Provider.of<AuthServices>(context);
@@ -54,7 +53,7 @@ class _AllTicketsScreenState extends State<AllTicketsScreen> {
   }
 
   Future<void> _pullToRefresh() async {
-    await Future.delayed(Duration(seconds: 2)).then((value) {
+    await Future.delayed(const Duration(seconds: 2)).then((value) {
       final firebaseServices2 =
           Provider.of<FirebaseServies>(context, listen: false);
 
@@ -68,30 +67,7 @@ class _AllTicketsScreenState extends State<AllTicketsScreen> {
     final textTheme = Theme.of(context).textTheme;
     final media = MediaQuery.of(context).size;
 
-    final firebaseServices2 = Provider.of<FirebaseServies>(context);
     final utilProvider = Provider.of<UtilProviders>(context);
-    final authProvider = Provider.of<AuthServices>(context);
-
-    Future<PlaneTicket> _findTicket() async {
-      await firebaseServices2.latestTicketFetcher(authProvider.user!.uid);
-      String latestTicketid = firebaseServices2.latestTicket.ticket;
-      PlaneTicket something =
-          firebaseServices2.allPlaneTicketItems.firstWhere((ticket) {
-        return ticket.id == latestTicketid;
-      });
-      return something;
-    }
-
-    @override
-    List<Widget> _buildPopularTickets() {
-      List<Widget> _tickets = [];
-      _allTickets = firebaseServices2.allPlaneTicketItems;
-      _allTickets.forEach((ticket) {
-        _tickets.add(Ticket(ticket: ticket));
-        _tickets.add(SizedBox(height: 10));
-      });
-      return _tickets;
-    }
 
     final imageUrl = Provider.of<AuthServices>(context).user!.photoURL!;
     final userName = Provider.of<AuthServices>(context).user!.displayName!;
@@ -101,12 +77,10 @@ class _AllTicketsScreenState extends State<AllTicketsScreen> {
         height: media.height * 0.25,
         decoration: BoxDecoration(
           color: colorScheme.secondary,
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             bottomLeft: Radius.circular(30),
             bottomRight: Radius.circular(30),
           ),
-
-          // color: colorScheme.secondary,
         ),
         width: media.width,
         alignment: Alignment.topRight,
@@ -139,7 +113,7 @@ class _AllTicketsScreenState extends State<AllTicketsScreen> {
                 height: 50,
                 width: 50,
                 decoration: BoxDecoration(
-                    color: Color(0xFF2F3245),
+                    color: const Color(0xFF2F3245),
                     borderRadius: BorderRadius.circular(100),
                     boxShadow: [
                       BoxShadow(
@@ -171,15 +145,6 @@ class _AllTicketsScreenState extends State<AllTicketsScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  // ElevatedButton(
-                  //     onPressed: () async {
-                  //       PlaneTicket some = _findTicket();
-                  //       setState(() {
-                  //         ticket = some;
-                  //       });
-                  //       print('object');
-                  //     },
-                  //     child: Icon(Icons.add)),
                   ProfilePicture(imageUrl: imageUrl, userName: userName),
                   SizedBox(
                     height: media.height * 0.025,
@@ -193,39 +158,37 @@ class _AllTicketsScreenState extends State<AllTicketsScreen> {
                       children: [
                         Expanded(
                             flex: 2,
-                            child: Container(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(ticket.departureCity,
-                                      style: textTheme.displayLarge!.copyWith(
-                                          color: colorScheme.primary,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 13)),
-                                  SizedBox(
-                                    height: 15,
-                                  ),
-                                  Text(
-                                    ticket.departureStateCode,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(ticket.departureCity,
                                     style: textTheme.displayLarge!.copyWith(
                                         color: colorScheme.primary,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 18),
-                                  ),
-                                  SizedBox(
-                                    height: 15,
-                                  ),
-                                  Text(
-                                      DateFormat('dd MMM yyyy')
-                                          .format(DateTime.parse(
-                                              ticket.departureDate))
-                                          .toString(),
-                                      style: textTheme.displayLarge!.copyWith(
-                                          color: colorScheme.primary,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 13)),
-                                ],
-                              ),
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 13)),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                Text(
+                                  ticket.departureStateCode,
+                                  style: textTheme.displayLarge!.copyWith(
+                                      color: colorScheme.primary,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18),
+                                ),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                Text(
+                                    DateFormat('dd MMM yyyy')
+                                        .format(DateTime.parse(
+                                            ticket.departureDate))
+                                        .toString(),
+                                    style: textTheme.displayLarge!.copyWith(
+                                        color: colorScheme.primary,
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 13)),
+                              ],
                             )),
                         Expanded(
                             flex: 3,
@@ -244,7 +207,7 @@ class _AllTicketsScreenState extends State<AllTicketsScreen> {
                                           color: colorScheme.primary,
                                           fontWeight: FontWeight.normal,
                                           fontSize: 13)),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 3,
                                   ),
                                 ],
@@ -252,49 +215,43 @@ class _AllTicketsScreenState extends State<AllTicketsScreen> {
                             )),
                         Expanded(
                             flex: 2,
-                            child: Container(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(ticket.arrivalCity,
-                                      style: textTheme.displayLarge!.copyWith(
-                                          color: colorScheme.primary,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 13)),
-                                  SizedBox(
-                                    height: 15,
-                                  ),
-                                  Text(
-                                    ticket.arrivalStateCode,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(ticket.arrivalCity,
                                     style: textTheme.displayLarge!.copyWith(
                                         color: colorScheme.primary,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 18),
-                                  ),
-                                  SizedBox(
-                                    height: 15,
-                                  ),
-                                  Text(
-                                      DateFormat('dd MMM yyyy')
-                                          .format(DateTime.parse(
-                                              ticket.arrivalDate))
-                                          .toString(),
-                                      style: textTheme.displayLarge!.copyWith(
-                                          color: colorScheme.primary,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 13)),
-                                ],
-                              ),
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 13)),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                Text(
+                                  ticket.arrivalStateCode,
+                                  style: textTheme.displayLarge!.copyWith(
+                                      color: colorScheme.primary,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18),
+                                ),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                Text(
+                                    DateFormat('dd MMM yyyy')
+                                        .format(
+                                            DateTime.parse(ticket.arrivalDate))
+                                        .toString(),
+                                    style: textTheme.displayLarge!.copyWith(
+                                        color: colorScheme.primary,
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 13)),
+                              ],
                             )),
                       ],
                     ),
                   ),
                   SizedBox(
-                    height: media.height * 0.025,
-                  ),
-
-                  SizedBox(
-                    height: media.height * 0.025,
+                    height: media.height * 0.05,
                   ),
                   Container(
                     alignment: Alignment.centerLeft,
@@ -317,16 +274,7 @@ class _AllTicketsScreenState extends State<AllTicketsScreen> {
                       ],
                     ),
                   ),
-                  // SizedBox(
-                  //   height: media.height * 0.25,
-                  //   width: media.width * 0.87,
-                  //   child: ListView.builder(
-                  //     itemBuilder: (context, index) =>
-                  //         Ticket(ticket: _allTickets[index]),
-                  //     itemCount: _allTickets.length,
-                  //   ),
-                  // )
-                  Container(
+                  SizedBox(
                     height: media.height * 0.6,
                     width: media.width * 0.87,
                     child: LiquidPullToRefresh(

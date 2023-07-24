@@ -18,108 +18,11 @@ class FirebaseServies extends ChangeNotifier {
     classType: '',
     packageType: '',
   );
-  List<PlaneTicket> _planeTicketItems = [
-    // PlaneTicket(
-    //   id: '1',
-    //   airportName: 'JFK International Airport',
-    //   departureCity: 'New York City',
-    //   arrivalCity: 'Los Angeles',
-    //   departureStateCode: 'NY',
-    //   arrivalStateCode: 'CA',
-    //   departureDate: DateTime(2022, 12, 1, 8, 0).toIso8601String(),
-    //   arrivalDate: DateTime(2022, 12, 1, 11, 0).toIso8601String(),
-    //   travelTime: 164,
-    //   price: 25000.00,
-    //   airwayName: 'Delta Airlines',
-    //   airplaneName: 'Boeing 737',
-    // ),
-    // PlaneTicket(
-    //   id: '2',
-    //   airportName: 'LAX International Airport',
-    //   departureCity: 'Los Angeles',
-    //   arrivalCity: 'New York City',
-    //   departureStateCode: 'CA',
-    //   arrivalStateCode: 'NY',
-    //   departureDate: DateTime(2022, 12, 1, 10, 0).toIso8601String(),
-    //   arrivalDate: DateTime(2022, 12, 1, 13, 0).toIso8601String(),
-    //   travelTime: 180,
-    //   price: 22000.00,
-    //   airwayName: 'American Airlines',
-    //   airplaneName: 'Airbus A320',
-    // ),
-    // PlaneTicket(
-    //   id: '3',
-    //   airportName: 'OHare International Airport',
-    //   departureCity: 'Chicago',
-    //   arrivalCity: 'San Francisco',
-    //   departureStateCode: 'IL',
-    //   arrivalStateCode: 'CA',
-    //   departureDate: DateTime(2022, 12, 1, 9, 0).toIso8601String(),
-    //   arrivalDate: DateTime(2022, 12, 1, 12, 0).toIso8601String(),
-    //   travelTime: 180,
-    //   price: 21000.00,
-    //   airwayName: 'United Airlines',
-    //   airplaneName: 'Boeing 777',
-    // ),
-    // PlaneTicket(
-    //   id: '4',
-    //   airportName: 'Dallas/Fort Worth International Airport',
-    //   departureCity: 'Dallas',
-    //   arrivalCity: 'New York City',
-    //   departureStateCode: 'TX',
-    //   arrivalStateCode: 'NY',
-    //   departureDate: DateTime(2022, 12, 1, 7, 0).toIso8601String(),
-    //   arrivalDate: DateTime(2022, 12, 1, 10, 0).toIso8601String(),
-    //   travelTime: 180,
-    //   price: 19000.00,
-    //   airwayName: 'Southwest Airlines',
-    //   airplaneName: 'Boeing 737',
-    // ),
-    // PlaneTicket(
-    //   id: '5',
-    //   airportName: 'Seattle-Tacoma International Airport',
-    //   departureCity: 'Seattle',
-    //   arrivalCity: 'Denver',
-    //   departureStateCode: 'WA',
-    //   arrivalStateCode: 'CO',
-    //   departureDate: DateTime(2022, 12, 1, 12, 0).toIso8601String(),
-    //   arrivalDate: DateTime(2022, 12, 1, 15, 0).toIso8601String(),
-    //   travelTime: 180,
-    //   price: 18000.00,
-    //   airwayName: 'Alaska Airlines',
-    //   airplaneName: 'Airbus A321',
-    // ),
-    // PlaneTicket(
-    //   id: '6',
-    //   airportName: 'Miami International Airport',
-    //   departureCity: 'Miami',
-    //   arrivalCity: 'Chicago',
-    //   departureStateCode: 'FL',
-    //   arrivalStateCode: 'IL',
-    //   departureDate: DateTime(2022, 12, 1, 6, 0).toIso8601String(),
-    //   arrivalDate: DateTime(2022, 12, 1, 9, 0).toIso8601String(),
-    //   travelTime: 180,
-    //   price: 22000.00,
-    //   airwayName: 'JetBlue Airways',
-    //   airplaneName: 'Embraer E190',
-    // ),
-    // PlaneTicket(
-    //   id: '7',
-    //   airportName: 'San Francisco International Airport',
-    //   departureCity: 'San Francisco',
-    //   arrivalCity: 'Seattle',
-    //   departureStateCode: 'CA',
-    //   arrivalStateCode: 'WA',
-    //   departureDate: DateTime(2022, 12, 1, 11, 0).toIso8601String(),
-    //   arrivalDate: DateTime(2022, 12, 1, 14, 0).toIso8601String(),
-    //   travelTime: 180,
-    //   price: 20000.00,
-    //   airwayName: 'Delta Airlines',
-    //   airplaneName: 'Boeing 737',
-    // )
-  ];
+  List<PlaneTicket> _planeTicketItems = [];
 
   List<PlaneTicket> _allPlaneTicketItems = [];
+
+  List<PlaneTicket> _historyPlaneTicketItems = [];
 
   List<PlaneTicket> get planeTicketItems {
     return [..._planeTicketItems];
@@ -127,6 +30,10 @@ class FirebaseServies extends ChangeNotifier {
 
   OrderTicket get latestTicket {
     return _latestTicket;
+  }
+
+  List<PlaneTicket> get history {
+    return [..._historyPlaneTicketItems];
   }
 
   List<PlaneTicket> get allPlaneTicketItems {
@@ -160,23 +67,6 @@ class FirebaseServies extends ChangeNotifier {
 
     _planeTicketItems = loadedTicket;
     notifyListeners();
-
-    // _planeTicketItems.forEach((element) async {
-    //   final response = await http.post(url,
-    //       body: json.encode({
-    //         'airportName': element.airportName,
-    //         'departureCity': element.departureCity,
-    //         'arrivalCity': element.arrivalCity,
-    //         'departureStateCode': element.departureStateCode,
-    //         'arrivalStateCode': element.arrivalStateCode,
-    //         'departureDate': element.departureDate,
-    //         'arrivalDate': element.arrivalDate,
-    //         'travelTime': element.travelTime,
-    //         'price': element.price,
-    //         'airwayName': element.airwayName,
-    //         'airplaneName': element.airplaneName,
-    //       }));
-    // });
   }
 
   Future<void> fetchAllTickets() async {
@@ -228,27 +118,11 @@ class FirebaseServies extends ChangeNotifier {
 
     _allPlaneTicketItems = loadedTicket;
     notifyListeners();
-    // _planeTicketItems.forEach((element) async {
-    //   final response = await http.post(url,
-    //       body: json.encode({
-    //         'airportName': element.airportName,
-    //         'departureCity': element.departureCity,
-    //         'arrivalCity': element.arrivalCity,
-    //         'departureStateCode': element.departureStateCode,
-    //         'arrivalStateCode': element.arrivalStateCode,
-    //         'departureDate': element.departureDate,
-    //         'arrivalDate': element.arrivalDate,
-    //         'travelTime': element.travelTime,
-    //         'price': element.price,
-    //         'airwayName': element.airwayName,
-    //         'airplaneName': element.airplaneName,
-    //       }));
-    // });
   }
 
   Future<void> latestTicketFetcher(String uid) async {
     final url = Uri.parse(
-        'https://personal-projects-89a44-default-rtdb.firebaseio.com/users/${uid}/orders/latestTicket.json');
+        'https://personal-projects-89a44-default-rtdb.firebaseio.com/users/$uid/orders/latestTicket.json');
     await http.get(url).then((response) {
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       extractedData.forEach((key, value) {
@@ -264,6 +138,42 @@ class FirebaseServies extends ChangeNotifier {
         _latestTicket = latestTicket;
         notifyListeners();
       });
+    });
+  }
+
+  Future<void> historyFetcher(String uid) async {
+    List<OrderTicket> history_unfiltered = [];
+    List<PlaneTicket> history = [];
+    final url = Uri.parse(
+        'https://personal-projects-89a44-default-rtdb.firebaseio.com/users/$uid/orders/history.json');
+    await http.get(url).then((response) {
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      extractedData.forEach((key, value) {
+        final latestTicket = OrderTicket(
+          orderId: value['orderId'],
+          ticket: value['ticket'],
+          userId: value['userId'],
+          countPassengers: value['countPassengers'],
+          totalPrice: value['totalPrice'],
+          classType: value['classType'],
+          packageType: value['packageType'],
+        );
+        history_unfiltered.add(latestTicket);
+      });
+
+      history_unfiltered.forEach((element) {
+        _allPlaneTicketItems.forEach((element2) {
+          if (element.ticket == element2.id) {
+            history.add(element2);
+          }
+        });
+      });
+
+      print(history_unfiltered);
+
+      _historyPlaneTicketItems = history;
+
+      notifyListeners();
     });
   }
 
