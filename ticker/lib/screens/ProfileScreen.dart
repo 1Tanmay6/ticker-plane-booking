@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/util_providers.dart';
 import '../providers/auth_services.dart';
-import 'BottomNavBar.dart';
+import '../main.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
+    bool _darkMode = MyApp.darkMode.value;
     final authProvider = Provider.of<AuthServices>(context);
 
     final media = MediaQuery.of(context).size;
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    final utilProvider = Provider.of<UtilProviders>(context);
-
     // ignore: no_leading_underscores_for_local_identifiers
     Widget _buildInput({
       required String label,
       required bool hasIcon,
+      Function? func,
       Widget? icon,
       required bool passengerCount,
       TextEditingController? controller,
@@ -30,7 +34,7 @@ class ProfileScreen extends StatelessWidget {
         height: media.height * 0.06,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-            color: colorScheme.primary,
+            color: colorScheme.surface,
             borderRadius: BorderRadius.circular(7.5),
             boxShadow: [
               BoxShadow(
@@ -51,13 +55,23 @@ class ProfileScreen extends StatelessWidget {
             icon: hasIcon ? icon! : null,
             border: InputBorder.none,
           ),
-          onTap: () {},
+          onTap: () {
+            if (func != null) {
+              func();
+              print(MyApp.darkMode.value);
+            }
+          },
         ),
       );
     }
 
     return Scaffold(
       body: Stack(alignment: Alignment.topCenter, children: [
+        Container(
+          height: media.height,
+          width: media.width,
+          color: colorScheme.primary,
+        ),
         Container(
           height: media.height * 0.45,
           width: media.width,
@@ -80,31 +94,12 @@ class ProfileScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        FloatingActionButton.small(
-                          heroTag: 'back',
-                          backgroundColor: colorScheme.primary,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(100),
-                          ),
-                          onPressed: () {
-                            utilProvider.resetTempSelection();
-                            Navigator.of(context).push(
-                              MaterialPageRoute<void>(
-                                builder: (BuildContext context) {
-                                  return BottomNavBar();
-                                },
-                              ),
-                            );
-                          },
-                          child: Icon(Icons.arrow_back_rounded,
-                              color: colorScheme.secondary),
-                        ),
                         Text('Profile',
                             style: textTheme.displayLarge!.copyWith(
-                                color: colorScheme.primary, fontSize: 25)),
+                                color: colorScheme.onSecondary, fontSize: 25)),
                         FloatingActionButton.small(
                           heroTag: 'Logout',
-                          backgroundColor: colorScheme.primary,
+                          backgroundColor: colorScheme.onSecondary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100),
                           ),
@@ -125,7 +120,7 @@ class ProfileScreen extends StatelessWidget {
               width: media.width * 0.85,
 
               decoration: BoxDecoration(
-                  color: colorScheme.primary,
+                  color: colorScheme.surface,
                   borderRadius: BorderRadius.circular(15),
                   boxShadow: const [
                     BoxShadow(
@@ -230,8 +225,18 @@ class ProfileScreen extends StatelessWidget {
                                           hasIcon: true,
                                           passengerCount: false,
                                           controller: TextEditingController(
-                                              text: 'Dark Mode'),
-                                          icon: const Icon(Icons.dark_mode))
+                                              text: _darkMode
+                                                  ? 'Light Mode'
+                                                  : 'Dark Mode'),
+                                          func: () {
+                                            setState(() {
+                                              _darkMode = !_darkMode;
+                                              MyApp.darkMode.value = _darkMode;
+                                            });
+                                          },
+                                          icon: _darkMode
+                                              ? Icon(Icons.sunny)
+                                              : Icon(Icons.dark_mode))
                                     ],
                                   ),
                                 ),

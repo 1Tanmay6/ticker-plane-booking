@@ -136,6 +136,41 @@ class UtilProviders extends ChangeNotifier {
     return (finalPrice += 1500) * _numberOfPassengers;
   }
 
+  int getRazorPrice(double price) {
+    double finalPrice = price;
+
+    switch (_currrentPackage) {
+      case 'Basic':
+        finalPrice += 0;
+
+      case "Standard":
+        finalPrice += 750;
+
+      case 'Premium':
+        finalPrice += 1500;
+
+      default:
+        return 0;
+    }
+
+    switch (_currrentClass) {
+      case 'Economy':
+        finalPrice += 0;
+
+      case "Business":
+        finalPrice += 11500;
+
+      case 'First Class':
+        finalPrice += 15800;
+
+      default:
+        return 0;
+    }
+
+    _finalPrice = (finalPrice += 1500) * _numberOfPassengers;
+    return ((finalPrice += 1500) * _numberOfPassengers * 100).toInt();
+  }
+
   Future<String> getDownloadsDirectoryPath() async {
     final directory = await getApplicationDocumentsDirectory();
     final downloadsDirectoryPath = '${directory.path}/Downloads';

@@ -26,7 +26,7 @@ class LoginRegisterScreen extends StatelessWidget {
             Text(
               'Connect With Us',
               style: textTheme.displayLarge!.copyWith(
-                color: const Color(0xFFf5f5f5),
+                color: colorScheme.onSecondary,
               ),
             ),
             SizedBox(
@@ -61,32 +61,48 @@ class LoginRegisterScreen extends StatelessWidget {
                         'lib/assets/images/tick.png',
                         height: media.height * 0.04,
                       ),
-                      Text('Get 15% off on the first ticket',
-                          style: textTheme.bodyMedium),
+                      Text(
+                        'Get 15% off on the first ticket',
+                        style: textTheme.bodyMedium!.copyWith(
+                          color: colorScheme.onPrimary,
+                        ),
+                      ),
                     ]),
                     Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                       Image.asset(
                         'lib/assets/images/tick.png',
                         height: media.height * 0.04,
                       ),
-                      Text('Zero cancellation fee',
-                          style: textTheme.bodyMedium),
+                      Text(
+                        'Zero cancellation fee',
+                        style: textTheme.bodyMedium!.copyWith(
+                          color: colorScheme.onPrimary,
+                        ),
+                      ),
                     ]),
                     Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                       Image.asset(
                         'lib/assets/images/tick.png',
                         height: media.height * 0.04,
                       ),
-                      Text('Get the highest discounts',
-                          style: textTheme.bodyMedium),
+                      Text(
+                        'Get the highest discounts',
+                        style: textTheme.bodyMedium!.copyWith(
+                          color: colorScheme.onPrimary,
+                        ),
+                      ),
                     ]),
                     Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                       Image.asset(
                         'lib/assets/images/tick.png',
                         height: media.height * 0.04,
                       ),
-                      Text('Be updated with the latest tickets',
-                          style: textTheme.bodyMedium),
+                      Text(
+                        'Be updated with the latest tickets',
+                        style: textTheme.bodyMedium!.copyWith(
+                          color: colorScheme.onPrimary,
+                        ),
+                      ),
                     ]),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -109,7 +125,7 @@ class LoginRegisterScreen extends StatelessWidget {
                             label: Text(
                               'Login with Google',
                               style: textTheme.displayLarge!.copyWith(
-                                  color: const Color(0xFFf5f5f5),
+                                  color: colorScheme.onSecondary,
                                   fontWeight: FontWeight.w400,
                                   fontSize: media.height * 0.018),
                               textAlign: TextAlign.center,

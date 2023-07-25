@@ -41,7 +41,7 @@ class PostConfirmScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8),
         width: media.width * 0.7,
         decoration: BoxDecoration(
-            color: colorScheme.primary,
+            color: colorScheme.onSecondary,
             borderRadius: BorderRadius.circular(7.5),
             boxShadow: [
               BoxShadow(
@@ -68,6 +68,11 @@ class PostConfirmScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(alignment: Alignment.topCenter, children: [
         Container(
+          height: media.height,
+          width: media.width,
+          color: colorScheme.primary,
+        ),
+        Container(
           height: media.height * 0.45,
           width: media.width,
           color: colorScheme.secondary,
@@ -91,7 +96,7 @@ class PostConfirmScreen extends StatelessWidget {
                       children: [
                         FloatingActionButton.small(
                           heroTag: 'back',
-                          backgroundColor: colorScheme.primary,
+                          backgroundColor: colorScheme.onSecondary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100),
                           ),
@@ -110,10 +115,10 @@ class PostConfirmScreen extends StatelessWidget {
                         ),
                         Text('Success!',
                             style: textTheme.displayLarge!.copyWith(
-                                color: colorScheme.primary, fontSize: 25)),
+                                color: colorScheme.onSecondary, fontSize: 25)),
                         FloatingActionButton.small(
                           heroTag: 'Share',
-                          backgroundColor: colorScheme.primary,
+                          backgroundColor: colorScheme.onSecondary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100),
                           ),
@@ -135,7 +140,7 @@ class PostConfirmScreen extends StatelessWidget {
               width: media.width * 0.85,
 
               decoration: BoxDecoration(
-                  color: colorScheme.primary,
+                  color: colorScheme.surface,
                   borderRadius: BorderRadius.circular(15),
                   boxShadow: const [
                     BoxShadow(
@@ -157,11 +162,10 @@ class PostConfirmScreen extends StatelessWidget {
                           children: [
                             Text(ticket.airwayName,
                                 style: textTheme.displayLarge!.copyWith(
-                                    color: colorScheme.onPrimary,
-                                    fontSize: 18)),
+                                    color: Colors.black, fontSize: 18)),
                             Text(ticket.airplaneName,
                                 style: textTheme.displayLarge!.copyWith(
-                                    color: colorScheme.onPrimary, fontSize: 18))
+                                    color: Colors.black, fontSize: 18))
                           ],
                         ),
                         const Divider(
@@ -315,7 +319,7 @@ class PostConfirmScreen extends StatelessWidget {
                 height: media.height * 0.25, //? Here is the height
                 width: media.width * 0.85,
                 decoration: BoxDecoration(
-                    color: colorScheme.primary,
+                    color: colorScheme.surface,
                     borderRadius: BorderRadius.circular(15),
                     boxShadow: const [
                       BoxShadow(
@@ -323,9 +327,10 @@ class PostConfirmScreen extends StatelessWidget {
                           blurRadius: 10,
                           offset: Offset(0, 5))
                     ]),
-                child: SizedBox(
+                child: Container(
                     height: double.maxFinite,
                     width: double.maxFinite,
+                    // color: colorScheme.surface,
                     child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 12.0, vertical: 20),
@@ -337,12 +342,11 @@ class PostConfirmScreen extends StatelessWidget {
                                       color: colorScheme.secondary,
                                       fontSize: 20)),
                               Expanded(
-                                child: Container(
-                                  child: SfBarcodeGenerator(
-                                    value:
-                                        'https://pizza-delivery-mu.vercel.app/',
-                                    symbology: QRCode(),
-                                  ),
+                                child: SfBarcodeGenerator(
+                                  barColor: Colors.black,
+                                  value:
+                                      'https://pizza-delivery-mu.vercel.app/',
+                                  symbology: QRCode(),
                                 ),
                               )
                             ])))),
@@ -356,7 +360,7 @@ class PostConfirmScreen extends StatelessWidget {
               child: FloatingActionButton.extended(
                   icon: const Icon(Icons.save_alt_outlined),
                   backgroundColor: colorScheme.secondary,
-                  foregroundColor: colorScheme.primary,
+                  foregroundColor: colorScheme.onSecondary,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15)),
                   onPressed: () {
@@ -366,7 +370,7 @@ class PostConfirmScreen extends StatelessWidget {
                   label: Text(
                     'Download Ticket',
                     style: textTheme.displayLarge!.copyWith(
-                        color: colorScheme.primary,
+                        color: colorScheme.onSecondary,
                         fontWeight: FontWeight.w500,
                         fontSize: media.height * 0.02),
                     textAlign: TextAlign.center,

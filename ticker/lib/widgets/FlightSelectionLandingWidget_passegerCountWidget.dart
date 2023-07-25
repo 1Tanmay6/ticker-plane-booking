@@ -32,7 +32,7 @@ class _FlightSelectionLandingWidget_passegerCountWidgetState
       padding: const EdgeInsets.symmetric(horizontal: 8),
       width: media.width * 0.7,
       decoration: BoxDecoration(
-          color: colorScheme.background,
+          color: colorScheme.onSecondary,
           borderRadius: BorderRadius.circular(7.5),
           boxShadow: [
             BoxShadow(
@@ -59,6 +59,7 @@ class _FlightSelectionLandingWidget_passegerCountWidgetState
             ),
           ),
           FloatingActionButton(
+            backgroundColor: const Color(0xFFf5f5f5),
             onPressed: () {
               utilProvider.decrementPassengers();
               setState(() {
@@ -71,8 +72,9 @@ class _FlightSelectionLandingWidget_passegerCountWidgetState
             ),
             mini: true,
           ),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
           FloatingActionButton(
+            backgroundColor: const Color(0xFFf5f5f5),
             onPressed: () {
               utilProvider.incrementPassengers();
               setState(() {

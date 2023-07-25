@@ -56,11 +56,21 @@ class _LandingScreenState extends State<LandingScreen> {
     final userName = Provider.of<AuthServices>(context).user!.displayName!;
 
     return (firebaseServices2.allPlaneTicketItems.isEmpty || !init)
-        ? Center(
-            child: LoadingAnimationWidget.beat(
-                color: colorScheme.secondary, size: 35))
+        ? Container(
+            height: media.height,
+            width: media.width,
+            color: colorScheme.primary,
+            child: Center(
+                child: LoadingAnimationWidget.beat(
+                    color: colorScheme.background, size: 35)),
+          )
         : Stack(
             children: [
+              Container(
+                height: media.height,
+                width: media.width,
+                color: colorScheme.primary,
+              ),
               Container(
                 height: media.height * 0.45,
                 width: media.width,
@@ -111,7 +121,7 @@ class _LandingScreenState extends State<LandingScreen> {
                           },
                           child: Icon(
                             Icons.notifications,
-                            color: colorScheme.primary,
+                            color: colorScheme.onSecondary,
                             size: 25,
                           ),
                         ))
@@ -122,7 +132,6 @@ class _LandingScreenState extends State<LandingScreen> {
                 child: Container(
                     height: media.height,
                     width: media.width,
-                    color: Colors.transparent,
                     alignment: Alignment.center,
                     child: SingleChildScrollView(
                       child: Column(
@@ -140,7 +149,7 @@ class _LandingScreenState extends State<LandingScreen> {
                             child: Text('Safely reserve your plane ticket.',
                                 style: textTheme.displayLarge!.copyWith(
                                     fontSize: media.height * 0.035,
-                                    color: colorScheme.primary,
+                                    color: colorScheme.onSecondary,
                                     fontWeight: FontWeight.w500)),
                           ),
                           SizedBox(
@@ -150,7 +159,7 @@ class _LandingScreenState extends State<LandingScreen> {
                               height: media.height * 0.43,
                               width: media.width * 0.8,
                               alignment: Alignment.topCenter,
-                              child: FlightSelectionBox()),
+                              child: const FlightSelectionBox()),
                           SizedBox(
                             height: media.height * 0.025,
                           ),

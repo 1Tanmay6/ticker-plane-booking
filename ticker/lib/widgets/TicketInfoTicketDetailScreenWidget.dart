@@ -39,7 +39,7 @@ class TicketInfo extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8),
         width: media.width * 0.7,
         decoration: BoxDecoration(
-            color: colorScheme.primary,
+            color: colorScheme.onSecondary,
             borderRadius: BorderRadius.circular(7.5),
             boxShadow: [
               BoxShadow(
@@ -70,7 +70,7 @@ class TicketInfo extends StatelessWidget {
           width: media.width * 0.85,
 
           decoration: BoxDecoration(
-              color: colorScheme.primary,
+              color: colorScheme.surface,
               borderRadius: BorderRadius.circular(15),
               boxShadow: [
                 BoxShadow(

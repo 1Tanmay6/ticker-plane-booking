@@ -74,6 +74,11 @@ class _AllTicketsScreenState extends State<AllTicketsScreen> {
 
     return Stack(children: [
       Container(
+        height: media.height,
+        width: media.width,
+        color: colorScheme.primary,
+      ),
+      Container(
         height: media.height * 0.25,
         decoration: BoxDecoration(
           color: colorScheme.secondary,
@@ -129,7 +134,7 @@ class _AllTicketsScreenState extends State<AllTicketsScreen> {
                   },
                   child: Icon(
                     Icons.notifications,
-                    color: colorScheme.primary,
+                    color: colorScheme.onSecondary,
                     size: 25,
                   ),
                 ))
@@ -163,7 +168,7 @@ class _AllTicketsScreenState extends State<AllTicketsScreen> {
                               children: [
                                 Text(ticket.departureCity,
                                     style: textTheme.displayLarge!.copyWith(
-                                        color: colorScheme.primary,
+                                        color: colorScheme.onSecondary,
                                         fontWeight: FontWeight.normal,
                                         fontSize: 13)),
                                 const SizedBox(
@@ -172,7 +177,7 @@ class _AllTicketsScreenState extends State<AllTicketsScreen> {
                                 Text(
                                   ticket.departureStateCode,
                                   style: textTheme.displayLarge!.copyWith(
-                                      color: colorScheme.primary,
+                                      color: colorScheme.onSecondary,
                                       fontWeight: FontWeight.w600,
                                       fontSize: 18),
                                 ),
@@ -185,7 +190,7 @@ class _AllTicketsScreenState extends State<AllTicketsScreen> {
                                             ticket.departureDate))
                                         .toString(),
                                     style: textTheme.displayLarge!.copyWith(
-                                        color: colorScheme.primary,
+                                        color: colorScheme.onSecondary,
                                         fontWeight: FontWeight.normal,
                                         fontSize: 13)),
                               ],
@@ -204,7 +209,7 @@ class _AllTicketsScreenState extends State<AllTicketsScreen> {
                                       utilProvider
                                           .minsConverter(ticket.travelTime),
                                       style: textTheme.displayLarge!.copyWith(
-                                          color: colorScheme.primary,
+                                          color: colorScheme.onSecondary,
                                           fontWeight: FontWeight.normal,
                                           fontSize: 13)),
                                   const SizedBox(
@@ -220,7 +225,7 @@ class _AllTicketsScreenState extends State<AllTicketsScreen> {
                               children: [
                                 Text(ticket.arrivalCity,
                                     style: textTheme.displayLarge!.copyWith(
-                                        color: colorScheme.primary,
+                                        color: colorScheme.onSecondary,
                                         fontWeight: FontWeight.normal,
                                         fontSize: 13)),
                                 const SizedBox(
@@ -229,7 +234,7 @@ class _AllTicketsScreenState extends State<AllTicketsScreen> {
                                 Text(
                                   ticket.arrivalStateCode,
                                   style: textTheme.displayLarge!.copyWith(
-                                      color: colorScheme.primary,
+                                      color: colorScheme.onSecondary,
                                       fontWeight: FontWeight.w600,
                                       fontSize: 18),
                                 ),
@@ -242,7 +247,7 @@ class _AllTicketsScreenState extends State<AllTicketsScreen> {
                                             DateTime.parse(ticket.arrivalDate))
                                         .toString(),
                                     style: textTheme.displayLarge!.copyWith(
-                                        color: colorScheme.primary,
+                                        color: colorScheme.onSecondary,
                                         fontWeight: FontWeight.normal,
                                         fontSize: 13)),
                               ],

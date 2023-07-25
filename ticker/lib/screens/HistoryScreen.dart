@@ -41,6 +41,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return Scaffold(
         body: Stack(alignment: Alignment.topCenter, children: [
       Container(
+        height: media.height,
+        width: media.width,
+        color: colorScheme.primary,
+      ),
+      Container(
         height: media.height * 0.45,
         width: media.width,
         color: colorScheme.secondary,
@@ -61,25 +66,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    FloatingActionButton.small(
-                      heroTag: 'back',
-                      backgroundColor: colorScheme.primary,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      onPressed: () {
-                        // utilProvider.resetTempSelection();
-                        Navigator.pop(context);
-                      },
-                      child: Icon(Icons.arrow_back_rounded,
-                          color: colorScheme.secondary),
-                    ),
                     Text('History',
                         style: textTheme.displayLarge!.copyWith(
-                            color: colorScheme.primary, fontSize: 25)),
+                            color: colorScheme.onSecondary, fontSize: 25)),
                     FloatingActionButton.small(
                       heroTag: 'Refresh',
-                      backgroundColor: colorScheme.primary,
+                      backgroundColor: colorScheme.onSecondary,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(100),
                       ),
@@ -97,7 +89,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
             height: media.height * 0.65, //? Here is the height
             width: media.width * 0.85,
             decoration: BoxDecoration(
-                color: colorScheme.primary,
+                color: colorScheme.surface,
                 borderRadius: BorderRadius.circular(15),
                 boxShadow: const [
                   BoxShadow(

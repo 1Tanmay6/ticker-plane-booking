@@ -42,7 +42,7 @@ class _FlightSelectionBoxState extends State<FlightSelectionBox> {
         padding: const EdgeInsets.symmetric(horizontal: 8),
         width: media.width * 0.7,
         decoration: BoxDecoration(
-            color: colorScheme.background,
+            color: colorScheme.onSecondary,
             borderRadius: BorderRadius.circular(7.5),
             boxShadow: [
               BoxShadow(
@@ -69,8 +69,6 @@ class _FlightSelectionBoxState extends State<FlightSelectionBox> {
                   utilProvider.setCurrentArr(value);
                 }
               }
-              print(utilProvider.currentDeps);
-              print(utilProvider.currentArr);
             },
             onTap: () async {
               if (controller != null) {
@@ -225,7 +223,7 @@ class _FlightSelectionBoxState extends State<FlightSelectionBox> {
                 label: Text(
                   'Search',
                   style: textTheme.displayLarge!.copyWith(
-                      color: colorScheme.primary,
+                      color: colorScheme.onSecondary,
                       fontWeight: FontWeight.w500,
                       fontSize: media.height * 0.02),
                   textAlign: TextAlign.center,

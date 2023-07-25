@@ -62,12 +62,14 @@ class _BottomNavBarState extends State<BottomNavBar> {
             color: colorScheme.secondary),
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
+            backgroundColor: colorScheme.surface,
             icon: Icon(
                 _selectedIndex == 0 ? Icons.home_rounded : Icons.home_outlined,
                 color: colorScheme.secondary),
             label: 'Home',
           ),
           BottomNavigationBarItem(
+            backgroundColor: colorScheme.surface,
             icon: Icon(
                 _selectedIndex == 1
                     ? Icons.confirmation_number
@@ -76,12 +78,14 @@ class _BottomNavBarState extends State<BottomNavBar> {
             label: 'Tickets',
           ),
           BottomNavigationBarItem(
+            backgroundColor: colorScheme.surface,
             icon: Icon(
                 _selectedIndex == 2 ? Icons.history : Icons.history_toggle_off,
                 color: colorScheme.secondary),
             label: 'History',
           ),
           BottomNavigationBarItem(
+            backgroundColor: colorScheme.surface,
             icon: Icon(
                 _selectedIndex == 3 ? Icons.person_2 : Icons.person_2_outlined,
                 color: colorScheme.secondary),

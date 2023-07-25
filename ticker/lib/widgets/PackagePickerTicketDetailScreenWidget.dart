@@ -35,7 +35,7 @@ class _PackagePickerTicketDetailScreenWidgetState
             height: media.height * 0.7, //? Here is the height
             width: media.width * 0.85,
             decoration: BoxDecoration(
-                color: colorScheme.primary,
+                color: colorScheme.surface,
                 borderRadius: BorderRadius.circular(15),
                 boxShadow: const [
                   BoxShadow(

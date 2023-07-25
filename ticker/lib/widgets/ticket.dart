@@ -88,7 +88,7 @@ class Ticket extends StatelessWidget {
                           border: Border.all(
                               color: colorScheme.onBackground.withOpacity(0.1),
                               width: 1.5),
-                          color: colorScheme.background,
+                          color: colorScheme.onSecondary,
                           boxShadow: [
                             BoxShadow(
                               color: colorScheme.onBackground.withOpacity(0.1),
@@ -111,7 +111,7 @@ class Ticket extends StatelessWidget {
                           border: Border.all(
                               color: colorScheme.onBackground.withOpacity(0.1),
                               width: 1.5),
-                          color: colorScheme.background,
+                          color: colorScheme.onSecondary,
                           boxShadow: [
                             BoxShadow(
                               color: colorScheme.onBackground.withOpacity(0.1),

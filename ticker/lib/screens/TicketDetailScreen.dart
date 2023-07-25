@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 import '../models/planeTicket.dart';
 import '../providers/util_providers.dart';
@@ -19,6 +20,83 @@ class TicketDetailScreen extends StatefulWidget {
 
 class _TicketDetailScreenState extends State<TicketDetailScreen> {
   bool _isProceed = false;
+  Razorpay? _razorpay;
+
+  @override
+  void initState() {
+    super.initState();
+    _razorpay = Razorpay();
+    _razorpay!.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay!.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay!.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _razorpay!.clear();
+  }
+
+  void openCheckout({
+    required int amount,
+    required String description,
+    required String email,
+  }) async {
+    var options = {
+      'key': 'rzp_test_CtU2obRTR3DFu4',
+      'amount': amount,
+      'name': 'Ticker',
+      'description': description,
+      'prefill': {'contact': '', 'email': email},
+      'external': {
+        'wallets': ['paytm']
+      }
+    };
+
+    try {
+      _razorpay!.open(options);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    final utilProvider = Provider.of<UtilProviders>(context, listen: false);
+    final firebaseProvider =
+        Provider.of<FirebaseServies>(context, listen: false);
+    final authProvider = Provider.of<AuthServices>(context, listen: false);
+    firebaseProvider.boughtTicket(
+        uid: authProvider.uid,
+        orderId: DateTime.now().toIso8601String(),
+        ticket: widget.ticket.id,
+        countPassengers: utilProvider.numberOfPassengers,
+        totalPrice: utilProvider.getPrice(widget.ticket.price),
+        classType: utilProvider.currrentClass,
+        packageType: utilProvider.currrentPackage);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => PostConfirmScreen(
+                ticket: widget.ticket,
+              )),
+    );
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    final snackBar = SnackBar(
+      content: Text(
+          'Payment failed! Error code: ${response.code} - ${response.message}'),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    final snackBar = SnackBar(
+      content: Text('External wallet selected: ${response.walletName}'),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context).size;
@@ -26,9 +104,6 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
     final textTheme = Theme.of(context).textTheme;
 
     final utilProvider = Provider.of<UtilProviders>(context);
-    final firebaseProvider =
-        Provider.of<FirebaseServies>(context, listen: false);
-    final authProvider = Provider.of<AuthServices>(context, listen: false);
 
     return Scaffold(
         backgroundColor: colorScheme.primary,
@@ -63,7 +138,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                             children: [
                               FloatingActionButton.small(
                                 heroTag: 'back',
-                                backgroundColor: colorScheme.primary,
+                                backgroundColor: colorScheme.onSecondary,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(100),
                                 ),
@@ -76,11 +151,11 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                               ),
                               Text('Details',
                                   style: textTheme.displayLarge!.copyWith(
-                                      color: colorScheme.primary,
+                                      color: colorScheme.onSecondary,
                                       fontSize: 25)),
                               FloatingActionButton.small(
                                 heroTag: 'Refresh',
-                                backgroundColor: colorScheme.primary,
+                                backgroundColor: colorScheme.onSecondary,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(100),
                                 ),
@@ -120,33 +195,22 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                                         setState(() {
                                           _isProceed = true;
                                         });
-
-                                        firebaseProvider.boughtTicket(
-                                            uid: authProvider.uid,
-                                            orderId: DateTime.now()
-                                                .toIso8601String(),
-                                            ticket: widget.ticket.id,
-                                            countPassengers:
-                                                utilProvider.numberOfPassengers,
-                                            totalPrice: utilProvider
-                                                .getPrice(widget.ticket.price),
-                                            classType:
-                                                utilProvider.currrentClass,
-                                            packageType:
-                                                utilProvider.currrentPackage);
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  PostConfirmScreen(
-                                                    ticket: widget.ticket,
-                                                  )),
+                                        openCheckout(
+                                          amount: utilProvider.getRazorPrice(
+                                              widget.ticket.price),
+                                          description:
+                                              '${widget.ticket.departureCity} to ${widget.ticket.arrivalCity}',
+                                          email: Provider.of<AuthServices>(
+                                                  context,
+                                                  listen: false)
+                                              .user!
+                                              .email as String,
                                         );
                                       },
                                       label: Text(
                                         'Buy Now',
                                         style: textTheme.displayLarge!.copyWith(
-                                            color: colorScheme.primary,
+                                            color: colorScheme.onSecondary,
                                             fontWeight: FontWeight.w500,
                                             fontSize: media.height * 0.018),
                                         textAlign: TextAlign.center,
@@ -157,7 +221,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                                 ),
                                 Expanded(
                                   child: FloatingActionButton.extended(
-                                      backgroundColor: colorScheme.background,
+                                      backgroundColor: colorScheme.onSecondary,
                                       foregroundColor: colorScheme.secondary,
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -189,7 +253,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                           width: media.width * 0.85,
                           child: FloatingActionButton.extended(
                               backgroundColor: colorScheme.secondary,
-                              foregroundColor: colorScheme.primary,
+                              foregroundColor: colorScheme.onSecondary,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15)),
                               onPressed: () {
@@ -203,7 +267,7 @@ class _TicketDetailScreenState extends State<TicketDetailScreen> {
                               label: Text(
                                 'Proceed',
                                 style: textTheme.displayLarge!.copyWith(
-                                    color: colorScheme.primary,
+                                    color: colorScheme.onSecondary,
                                     fontWeight: FontWeight.w500,
                                     fontSize: media.height * 0.022),
                                 textAlign: TextAlign.center,

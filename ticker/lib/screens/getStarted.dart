@@ -12,6 +12,7 @@ class GetStartedScreen extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
+      backgroundColor: colorScheme.primary,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -26,7 +27,7 @@ class GetStartedScreen extends StatelessWidget {
               ),
             ),
           ),
-          Container(
+          SizedBox(
             height: media.height * 0.05,
           ),
           Container(
@@ -35,7 +36,9 @@ class GetStartedScreen extends StatelessWidget {
               children: [
                 Text(
                   'Explore Exciting Destinations',
-                  style: textTheme.displayLarge,
+                  style: textTheme.displayLarge!.copyWith(
+                    color: colorScheme.onPrimary,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 Container(
@@ -43,7 +46,9 @@ class GetStartedScreen extends StatelessWidget {
                 ),
                 Text(
                   'Welcome to Ticker! Our app is designed to help you book your next flight with ease. With our app, you can easily search for flights by destination, date, and price.',
-                  style: textTheme.bodySmall,
+                  style: textTheme.bodySmall!.copyWith(
+                    color: colorScheme.onPrimary,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 Container(
@@ -60,7 +65,7 @@ class GetStartedScreen extends StatelessWidget {
             width: media.width * 0.75,
             child: FloatingActionButton.extended(
                 backgroundColor: colorScheme.secondary,
-                foregroundColor: colorScheme.primary,
+                foregroundColor: colorScheme.onSecondary,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15)),
                 onPressed: () {
